@@ -46,13 +46,13 @@ function emailShell(bodyHtml: string): string {
 <body style="margin:0;background:#FDF2F0;padding:32px 16px;font-family:Helvetica,Arial,sans-serif;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
     <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#FFFDF9;border:1px solid #2C18101A;border-radius:18px;overflow:hidden;">
-      <tr><td style="padding:34px 40px 22px;text-align:center;border-bottom:1px solid #2C18101A;">
-        <div style="font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:700;color:#2C1810;letter-spacing:0.5px;">Christina Pfeiffer</div>
-        <div style="margin-top:7px;font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#C49C40;">Transformation Coaching</div>
+      <tr><td style="padding:38px 40px 30px;text-align:center;border-bottom:1px solid #2C18101A;">
+        <div style="font-family:Georgia,'Times New Roman',serif;font-size:25px;font-weight:700;letter-spacing:-0.01em;"><span style="color:#2C1810;">Christina</span> <span style="color:#C49C40;">Pfeiffer</span></div>
       </td></tr>
-      <tr><td style="padding:30px 40px 26px;">${bodyHtml}</td></tr>
-      <tr><td style="padding:18px 40px 30px;border-top:1px solid #2C18101A;text-align:center;font-size:12px;color:#2C181099;">
-        Christina Pfeiffer · Transformation Coaching
+      <tr><td style="padding:34px 40px 30px;">${bodyHtml}</td></tr>
+      <tr><td style="padding:22px 40px 30px;border-top:1px solid #2C18101A;text-align:center;">
+        <div style="font-size:12px;font-weight:500;color:#2C181099;">Christina Pfeiffer · Transformation Coaching</div>
+        <div style="padding-top:7px;font-size:11px;line-height:1.5;color:#2C181066;">You received this because you requested a session at christinapfeiffer.com</div>
       </td></tr>
     </table>
   </td></tr></table>
