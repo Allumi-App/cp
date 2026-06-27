@@ -123,6 +123,7 @@ export const en = {
     placeholder: 'Enter your email',
     subscribe: 'Subscribe',
     success: 'Thank you — check your inbox to confirm.',
+    error: 'Please enter a valid email address.',
   },
   footer: {
     tagline:

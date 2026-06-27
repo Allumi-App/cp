@@ -1,22 +1,35 @@
 import { useState, type FormEvent } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { toast } from 'sonner'
 import { useLang } from '@/i18n/language-context'
 import { Container } from '@/components/ui/container'
 import { cn } from '@/lib/utils'
 import { btnPrimary } from '@/lib/ui'
+import { subscribe } from '@/app/actions/subscribe'
 
 export function FinalCtaSection() {
-  const { d } = useLang()
+  const { d, lang } = useLang()
   const c = d.finalCta
   const [email, setEmail] = useState('')
+  const [pending, setPending] = useState(false)
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (!email) return
-    console.debug('[newsletter] subscribe', email)
-    toast.success(c.success)
-    setEmail('')
+    if (!email || pending) return
+    setPending(true)
+    try {
+      const res = await subscribe(email, lang)
+      if (res.ok) {
+        toast.success(c.success)
+        setEmail('')
+      } else {
+        toast.error(c.error)
+      }
+    } catch {
+      toast.error(c.error)
+    } finally {
+      setPending(false)
+    }
   }
 
   return (
@@ -48,7 +61,8 @@ export function FinalCtaSection() {
               />
               <button
                 type="submit"
-                className="h-12 shrink-0 rounded-full bg-dark px-7 text-[15px] font-semibold text-cream transition-opacity hover:opacity-90"
+                disabled={pending}
+                className="h-12 shrink-0 rounded-full bg-dark px-7 text-[15px] font-semibold text-cream transition-opacity hover:opacity-90 disabled:opacity-60"
               >
                 {c.subscribe}
               </button>

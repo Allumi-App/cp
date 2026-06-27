@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useLang } from '@/i18n/language-context'
 import { Container } from '@/components/ui/container'
 
@@ -28,13 +28,18 @@ export function Footer() {
   const { d, lang, setLang, links } = useLang()
 
   const exploreHrefs = ['/#coaching', '/#allumi', '/#show', '/#about']
-  const socialUrl = (platform: string) => links?.social.find((s) => s.platform === platform)?.url || ''
   const showUrl = (platform: string) => links?.show.find((s) => s.platform === platform)?.url || ''
-  const realUrl = (u: string) => (u && u !== '#' ? u : '')
-  const socials = [
-    { platform: 'instagram', label: 'Instagram', Icon: InstagramIcon },
-    { platform: 'linkedin', label: 'LinkedIn', Icon: LinkedinIcon },
-  ].filter((s) => realUrl(socialUrl(s.platform)))
+  // Social links are dashboard-driven: render them in display_order, mapping each
+  // platform to its icon. (Christina sets the real URLs in the dashboard.)
+  const SOCIAL_ICONS = { instagram: InstagramIcon, linkedin: LinkedinIcon }
+  const socials = (links?.social ?? [])
+    .map((s) => ({
+      platform: s.platform,
+      label: s.title || s.platform,
+      url: s.url,
+      Icon: SOCIAL_ICONS[s.platform as keyof typeof SOCIAL_ICONS],
+    }))
+    .filter((s) => Boolean(s.Icon))
 
   return (
     <footer className="bg-footer-bg">
@@ -52,17 +57,19 @@ export function Footer() {
               <div className="flex flex-col gap-2.5">
                 <p className="text-base font-bold text-footer-text">{d.footer.follow}</p>
                 <div className="flex flex-col gap-3">
-                  {socials.map(({ platform, label, Icon }) => (
-                    <a
-                      key={platform}
-                      href={socialUrl(platform)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2.5 text-[15px] text-footer-muted transition-colors hover:text-footer-text"
-                    >
-                      <Icon /> {label}
-                    </a>
-                  ))}
+                  {socials.map(({ platform, label, url, Icon }) => {
+                    const isReal = Boolean(url && url !== '#')
+                    return (
+                      <a
+                        key={platform}
+                        href={isReal ? url : '#'}
+                        {...(isReal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                        className="flex items-center gap-2.5 text-[15px] text-footer-muted transition-colors hover:text-footer-text"
+                      >
+                        <Icon /> {label}
+                      </a>
+                    )
+                  })}
                 </div>
               </div>
             )}

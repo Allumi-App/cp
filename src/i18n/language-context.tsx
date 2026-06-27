@@ -9,15 +9,16 @@ import {
   useMemo,
   type ReactNode,
 } from 'react'
+import { useLocale } from 'next-intl'
 import { en, type Dictionary } from './en'
 import { de } from './de'
+import { usePathname, useRouter } from './navigation'
 import { fetchCpContent, buildContent, type DbRows, type CpImages, type CpLinks } from '@/content/cp-content'
 import type { SessionPackage } from '@/features/booking/booking-config'
 
 export type Lang = 'en' | 'de'
 
 const DICTIONARIES: Record<Lang, Dictionary> = { en, de }
-const STORAGE_KEY = 'cp-lang'
 
 interface LanguageContextValue {
   lang: Lang
@@ -33,16 +34,11 @@ interface LanguageContextValue {
   links: CpLinks | null
   /** Booking packages from the CMS (null → use the bundled booking-config). */
   packages: SessionPackage[] | null
+  /** Visible home-section keys in dashboard drag order. */
+  sectionOrder: string[]
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
-
-function getInitialLang(): Lang {
-  if (typeof window === 'undefined') return 'en'
-  const stored = window.localStorage.getItem(STORAGE_KEY)
-  if (stored === 'en' || stored === 'de') return stored
-  return 'en'
-}
 
 export function LanguageProvider({
   children,
@@ -52,7 +48,11 @@ export function LanguageProvider({
   /** Content fetched server-side (mirrors allumi-website). Null → client refetch fallback. */
   initialRows?: DbRows | null
 }) {
-  const [lang, setLangState] = useState<Lang>(getInitialLang)
+  // The active language is the URL locale (/en or /de), exactly like
+  // allumi-website — next-intl owns it, so there is no localStorage state.
+  const lang = useLocale() as Lang
+  const router = useRouter()
+  const pathname = usePathname()
   const [rows, setRows] = useState<DbRows | null>(initialRows)
 
   // Frontend fallback: if the server didn't supply content (fetch failed or
@@ -68,21 +68,20 @@ export function LanguageProvider({
     }
   }, [initialRows])
 
-  const setLang = useCallback((next: Lang) => {
-    setLangState(next)
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next)
-    } catch {
-      /* ignore storage failures */
-    }
-  }, [])
+  // Switching language navigates to the same path under the other locale.
+  const setLang = useCallback(
+    (next: Lang) => {
+      router.replace(pathname, { locale: next, scroll: false })
+    },
+    [router, pathname],
+  )
 
   const toggle = useCallback(() => {
     setLang(lang === 'en' ? 'de' : 'en')
   }, [lang, setLang])
 
   const content = useMemo(() => buildContent(DICTIONARIES[lang], rows, lang), [lang, rows])
-  const { d, images, links, packages } = content
+  const { d, images, links, packages, sectionOrder } = content
 
   const t = useCallback(
     (path: string): string => {
@@ -98,7 +97,7 @@ export function LanguageProvider({
   )
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, toggle, d, t, images, links, packages }}>
+    <LanguageContext.Provider value={{ lang, setLang, toggle, d, t, images, links, packages, sectionOrder }}>
       {children}
     </LanguageContext.Provider>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useLang } from '@/i18n/language-context'
 import { Container } from '@/components/ui/container'
 import { FloatingGradient } from '@/components/shared/floating-gradient'
@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils'
 import { LEGAL_SLUGS, getLegalSections, type LegalSlug } from './legal-content'
 
 export function LegalPage({ slug }: { slug: LegalSlug }) {
-  const { d } = useLang()
-  const sections = getLegalSections(slug)
+  const { d, lang } = useLang()
+  const sections = getLegalSections(slug, lang)
 
   return (
     <>

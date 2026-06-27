@@ -41,7 +41,20 @@ export interface CpContent {
   images: CpImages
   links: CpLinks | null
   packages: SessionPackage[] | null
+  /** Ordered, visible home-section keys (mirrors the dashboard's drag order). */
+  sectionOrder: string[]
 }
+
+/** Home sections in their default order (used as the fallback when no CMS rows). */
+export const DEFAULT_SECTION_ORDER = [
+  'hero',
+  'approach',
+  'allumi',
+  'show',
+  'testimonials',
+  'about',
+  'final_cta',
+] as const
 
 const str = (v: unknown): string => (typeof v === 'string' ? v : '')
 const arr = (v: unknown): string[] =>
@@ -89,7 +102,14 @@ const emptyImages: CpImages = { about: null, allumi: null, show: null }
 
 /** Merge DB rows over the bundled dictionary for the given language. */
 export function buildContent(local: Dictionary, rows: DbRows | null, lang: Lang): CpContent {
-  if (!rows) return { d: local, images: emptyImages, links: null, packages: null }
+  if (!rows)
+    return {
+      d: local,
+      images: emptyImages,
+      links: null,
+      packages: null,
+      sectionOrder: [...DEFAULT_SECTION_ORDER],
+    }
 
   const d: Dictionary = structuredClone(local)
   const S: Record<string, Row> = Object.fromEntries(
@@ -214,6 +234,15 @@ export function buildContent(local: Dictionary, rows: DbRows | null, lang: Lang)
     show: rows.show.map((r) => ({ platform: str(r.platform), url: str(r.url) })),
   }
 
+  // Visible home sections in dashboard order; footer is rendered separately.
+  const homeKeys = new Set(DEFAULT_SECTION_ORDER as readonly string[])
+  const orderedSections = rows.sections
+    .filter((s) => homeKeys.has(str(s.section_key)) && s.is_visible !== false)
+    .slice()
+    .sort((a, b) => Number(a.display_order ?? 0) - Number(b.display_order ?? 0))
+    .map((s) => str(s.section_key))
+  const sectionOrder = orderedSections.length ? orderedSections : [...DEFAULT_SECTION_ORDER]
+
   const packages: SessionPackage[] | null = rows.packages.length
     ? rows.packages.map((p) => ({
         id: str(p.slug) as PackageId,
@@ -228,5 +257,5 @@ export function buildContent(local: Dictionary, rows: DbRows | null, lang: Lang)
       }))
     : null
 
-  return { d, images, links, packages }
+  return { d, images, links, packages, sectionOrder }
 }

@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
 import { Check, Clock, Mail } from 'lucide-react'
 import { useLang } from '@/i18n/language-context'
 import { Container } from '@/components/ui/container'

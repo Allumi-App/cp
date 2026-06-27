@@ -125,6 +125,7 @@ export const de: Dictionary = {
     placeholder: 'E-Mail eingeben',
     subscribe: 'Abonnieren',
     success: 'Danke — bitte bestätige in deinem Postfach.',
+    error: 'Bitte gib eine gültige E-Mail-Adresse ein.',
   },
   footer: {
     tagline:
