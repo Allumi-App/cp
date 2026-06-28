@@ -261,6 +261,33 @@ export const en = {
   common: {
     bookNow: 'Book a session',
   },
+  seo: {
+    defaultTitle: 'Christina Pfeiffer — Transformation Coaching',
+    description:
+      'Live 1:1 transformation coaching over Zoom for women ready to move past old patterns — plus the ALLUMI app and The Christina Pfeiffer Show. Coaching in English & Deutsch, worldwide.',
+    home: {
+      description:
+        'Transformation coaching with Christina Pfeiffer. Private 1:1 sessions over Zoom, the ALLUMI meditation app, and a weekly podcast — for women ready to build clarity, confidence, and momentum.',
+    },
+    coaching: {
+      title: 'Book a 1:1 Session',
+      description:
+        'Request your private 1:1 transformation coaching session with Christina Pfeiffer over Zoom. Single sessions and 3- or 6-session journeys, in English or German.',
+    },
+    faq: {
+      title: 'FAQ',
+      description:
+        'How the 1:1 coaching sessions work — booking, payment, rescheduling, packages, and languages. Everything you need to know before your first session with Christina Pfeiffer.',
+    },
+    confirmation: {
+      title: 'Request Received',
+      description: 'Your coaching request has been received. Christina will be in touch by email.',
+    },
+    legal: {
+      title: 'Legal',
+      description: 'Imprint, privacy policy, terms, and cancellation information.',
+    },
+  },
 }
 
 export type Dictionary = typeof en
