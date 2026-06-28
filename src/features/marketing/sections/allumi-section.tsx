@@ -35,11 +35,18 @@ export function AllumiSection() {
   const { d, images, links } = useLang()
   const a = d.allumi
   const p = a.phone
-  const storeUrl = (platform: string) => links?.store.find((s) => s.platform === platform)?.url || ''
-  const hasStore = (platform: string) => {
-    const u = storeUrl(platform)
-    return !!u && u !== '#'
+  // Render store buttons in dashboard display_order (links.store is already ordered).
+  const STORE_META = {
+    ios: { Icon: AppleIcon, pre: a.appStorePre, name: a.appStoreName },
+    android: { Icon: GooglePlayIcon, pre: a.googlePlayPre, name: a.googlePlayName },
   }
+  const stores = (links?.store ?? [])
+    .map((s) => ({
+      platform: s.platform,
+      url: s.url,
+      meta: STORE_META[s.platform as keyof typeof STORE_META],
+    }))
+    .filter((s) => s.url && s.url !== '#' && s.meta)
 
   return (
     <section id="allumi" className="border-t border-[#2C18101A] bg-cream py-12 md:py-20 lg:py-26">
@@ -56,32 +63,29 @@ export function AllumiSection() {
             <p className="max-w-[520px] pt-6 text-base leading-[26px] text-dark/65 sm:text-[17px] sm:leading-7">{a.body}</p>
 
             <div className="flex items-center gap-3 pt-9 sm:gap-4">
-              {hasStore('ios') && (
-                <a href={storeUrl('ios')} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 rounded-[14px] bg-dark px-4 py-2.5 sm:gap-3 sm:px-[22px] sm:py-[13px]">
-                  <AppleIcon />
-                  <span className="flex flex-col">
-                    <span className="text-[9px] font-medium tracking-[0.04em] text-cream/70 sm:text-[10px]">
-                      {a.appStorePre}
+              {stores.map(({ platform, url, meta }) => {
+                if (!meta) return null
+                const Icon = meta.Icon
+                return (
+                  <a
+                    key={platform}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 rounded-[14px] bg-dark px-4 py-2.5 sm:gap-3 sm:px-[22px] sm:py-[13px]"
+                  >
+                    <Icon />
+                    <span className="flex flex-col">
+                      <span className="text-[9px] font-medium tracking-[0.04em] text-cream/70 sm:text-[10px]">
+                        {meta.pre}
+                      </span>
+                      <span className="text-[15px] font-semibold leading-[20px] text-cream sm:text-[17px] sm:leading-[22px]">
+                        {meta.name}
+                      </span>
                     </span>
-                    <span className="text-[15px] font-semibold leading-[20px] text-cream sm:text-[17px] sm:leading-[22px]">
-                      {a.appStoreName}
-                    </span>
-                  </span>
-                </a>
-              )}
-              {hasStore('android') && (
-                <a href={storeUrl('android')} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 rounded-[14px] bg-dark px-4 py-2.5 sm:gap-3 sm:px-[22px] sm:py-[13px]">
-                  <GooglePlayIcon />
-                  <span className="flex flex-col">
-                    <span className="text-[9px] font-medium tracking-[0.04em] text-cream/70 sm:text-[10px]">
-                      {a.googlePlayPre}
-                    </span>
-                    <span className="text-[15px] font-semibold leading-[20px] text-cream sm:text-[17px] sm:leading-[22px]">
-                      {a.googlePlayName}
-                    </span>
-                  </span>
-                </a>
-              )}
+                  </a>
+                )
+              })}
             </div>
 
             <a href="https://allumi.me" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-dark sm:text-[15px]">
