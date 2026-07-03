@@ -36,6 +36,12 @@ function YoutubeIcon() {
 }
 
 const PLATFORM_ICONS = [SpotifyIcon, ApplePodcastsIcon, YoutubeIcon]
+// Map by platform name so the right icon shows regardless of dashboard order.
+const ICON_BY_PLATFORM: Record<string, typeof SpotifyIcon> = {
+  Spotify: SpotifyIcon,
+  'Apple Podcasts': ApplePodcastsIcon,
+  YouTube: YoutubeIcon,
+}
 
 export function ShowSection() {
   const { d, images, links } = useLang()
@@ -56,25 +62,31 @@ export function ShowSection() {
             <p className="max-w-[540px] pt-6 text-base leading-[26px] text-dark/65 sm:text-[17px] sm:leading-7">{s.body}</p>
 
             <div className="flex flex-wrap items-center gap-3.5 pt-9">
-              {s.platforms
-                .map((platform, i) => ({
-                  platform,
-                  Icon: PLATFORM_ICONS[i],
-                  url: links?.show.find((pl) => pl.platform === platform)?.url || '',
-                }))
-                .filter((p) => p.url && p.url !== '#')
-                .map(({ platform, Icon, url }) => (
+              {s.platforms.map((platform, i) => {
+                const Icon = ICON_BY_PLATFORM[platform] ?? PLATFORM_ICONS[i]
+                const url = links?.show.find((pl) => pl.platform === platform)?.url || ''
+                const real = Boolean(url && url !== '#')
+                const cls =
+                  'flex items-center gap-2.5 rounded-full border border-[#2C181033] px-5 py-3 text-sm font-semibold text-dark transition-colors sm:text-[15px]'
+                // Show every platform button; link out only when a real URL is set.
+                return real ? (
                   <a
                     key={platform}
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2.5 rounded-full border border-[#2C181033] px-5 py-3 text-sm font-semibold text-dark transition-colors hover:border-dark/40 sm:text-[15px]"
+                    className={`${cls} hover:border-dark/40`}
                   >
-                    <Icon />
+                    {Icon && <Icon />}
                     {platform}
                   </a>
-                ))}
+                ) : (
+                  <span key={platform} className={cls}>
+                    {Icon && <Icon />}
+                    {platform}
+                  </span>
+                )
+              })}
             </div>
           </div>
 
