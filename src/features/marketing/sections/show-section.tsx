@@ -35,7 +35,6 @@ function YoutubeIcon() {
   )
 }
 
-const PLATFORM_ICONS = [SpotifyIcon, ApplePodcastsIcon, YoutubeIcon]
 // Map by platform name so the right icon shows regardless of dashboard order.
 const ICON_BY_PLATFORM: Record<string, typeof SpotifyIcon> = {
   Spotify: SpotifyIcon,
@@ -46,6 +45,14 @@ const ICON_BY_PLATFORM: Record<string, typeof SpotifyIcon> = {
 export function ShowSection() {
   const { d, images, links } = useLang()
   const s = d.show
+
+  // Platform buttons are dashboard-driven: use the show_platforms rows (already
+  // ordered by display_order) with their real URLs. Fall back to the bundled
+  // platform names (no links) only when the dashboard has none.
+  const platforms =
+    links?.show && links.show.length
+      ? links.show.map((pl) => ({ platform: pl.platform, url: pl.url }))
+      : s.platforms.map((platform) => ({ platform, url: '' }))
 
   return (
     <section id="show" className="bg-cream py-12 md:py-20 lg:py-26">
@@ -62,13 +69,12 @@ export function ShowSection() {
             <p className="max-w-[540px] pt-6 text-base leading-[26px] text-dark/65 sm:text-[17px] sm:leading-7">{s.body}</p>
 
             <div className="flex flex-wrap items-center gap-3.5 pt-9">
-              {s.platforms.map((platform, i) => {
-                const Icon = ICON_BY_PLATFORM[platform] ?? PLATFORM_ICONS[i]
-                const url = links?.show.find((pl) => pl.platform === platform)?.url || ''
+              {platforms.map(({ platform, url }) => {
+                const Icon = ICON_BY_PLATFORM[platform]
                 const real = Boolean(url && url !== '#')
                 const cls =
                   'flex items-center gap-2.5 rounded-full border border-[#2C181033] px-5 py-3 text-sm font-semibold text-dark transition-colors sm:text-[15px]'
-                // Show every platform button; link out only when a real URL is set.
+                // Show every dashboard platform button; link out only when a real URL is set.
                 return real ? (
                   <a
                     key={platform}
