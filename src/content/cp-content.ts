@@ -15,6 +15,7 @@ export interface DbRows {
   social: Row[]
   store: Row[]
   show: Row[]
+  legal: Row[]
 }
 
 export interface CpImages {
@@ -36,11 +37,20 @@ export interface CpLinks {
   show: CpLink[]
 }
 
+/** A legal document (Impressum/Datenschutz/etc.) — markdown body per language. */
+export interface CpLegalDoc {
+  slug: string
+  title: string
+  content: string
+}
+
 export interface CpContent {
   d: Dictionary
   images: CpImages
   links: CpLinks | null
   packages: SessionPackage[] | null
+  /** Dashboard-managed legal documents (null → fall back to bundled copy). */
+  legal: CpLegalDoc[] | null
   /** Ordered, visible home-section keys (mirrors the dashboard's drag order). */
   sectionOrder: string[]
 }
@@ -70,7 +80,7 @@ function pick(row: Row, base: string, lang: Lang): string {
 export async function fetchCpContent(): Promise<DbRows | null> {
   if (!supabase) return null
   try {
-    const [sections, pillars, testimonials, aboutStats, faq, packages, social, store, show] =
+    const [sections, pillars, testimonials, aboutStats, faq, packages, social, store, show, legal] =
       await Promise.all([
         supabase.from('sections').select('*').order('display_order'),
         supabase.from('approach_pillars').select('*').order('display_order'),
@@ -81,6 +91,7 @@ export async function fetchCpContent(): Promise<DbRows | null> {
         supabase.from('social_links').select('*').order('display_order'),
         supabase.from('store_links').select('*').order('display_order'),
         supabase.from('show_platforms').select('*').order('display_order'),
+        supabase.from('legal_documents').select('*').order('display_order'),
       ])
     return {
       sections: sections.data ?? [],
@@ -92,6 +103,7 @@ export async function fetchCpContent(): Promise<DbRows | null> {
       social: social.data ?? [],
       store: store.data ?? [],
       show: show.data ?? [],
+      legal: legal.data ?? [],
     }
   } catch {
     return null
@@ -108,6 +120,7 @@ export function buildContent(local: Dictionary, rows: DbRows | null, lang: Lang)
       images: emptyImages,
       links: null,
       packages: null,
+      legal: null,
       sectionOrder: [...DEFAULT_SECTION_ORDER],
     }
 
@@ -234,6 +247,14 @@ export function buildContent(local: Dictionary, rows: DbRows | null, lang: Lang)
     show: rows.show.map((r) => ({ platform: str(r.platform), url: str(r.url) })),
   }
 
+  // Legal documents — dashboard markdown per language (empty bodies fall through
+  // to the bundled placeholder copy at render time).
+  const legal: CpLegalDoc[] = rows.legal.map((r) => ({
+    slug: str(r.slug),
+    title: pick(r, 'title', lang),
+    content: pick(r, 'content', lang),
+  }))
+
   // Visible home sections in dashboard order; footer is rendered separately.
   const homeKeys = new Set(DEFAULT_SECTION_ORDER as readonly string[])
   const orderedSections = rows.sections
@@ -257,5 +278,5 @@ export function buildContent(local: Dictionary, rows: DbRows | null, lang: Lang)
       }))
     : null
 
-  return { d, images, links, packages, sectionOrder }
+  return { d, images, links, packages, legal, sectionOrder }
 }

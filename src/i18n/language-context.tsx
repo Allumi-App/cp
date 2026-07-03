@@ -13,7 +13,7 @@ import { useLocale } from 'next-intl'
 import { en, type Dictionary } from './en'
 import { de } from './de'
 import { usePathname, useRouter } from './navigation'
-import { fetchCpContent, buildContent, type DbRows, type CpImages, type CpLinks } from '@/content/cp-content'
+import { fetchCpContent, buildContent, type DbRows, type CpImages, type CpLinks, type CpLegalDoc } from '@/content/cp-content'
 import type { SessionPackage } from '@/features/booking/booking-config'
 
 export type Lang = 'en' | 'de'
@@ -34,6 +34,8 @@ interface LanguageContextValue {
   links: CpLinks | null
   /** Booking packages from the CMS (null → use the bundled booking-config). */
   packages: SessionPackage[] | null
+  /** Dashboard-managed legal documents (null → use bundled placeholder copy). */
+  legal: CpLegalDoc[] | null
   /** Visible home-section keys in dashboard drag order. */
   sectionOrder: string[]
 }
@@ -81,7 +83,7 @@ export function LanguageProvider({
   }, [lang, setLang])
 
   const content = useMemo(() => buildContent(DICTIONARIES[lang], rows, lang), [lang, rows])
-  const { d, images, links, packages, sectionOrder } = content
+  const { d, images, links, packages, legal, sectionOrder } = content
 
   const t = useCallback(
     (path: string): string => {
@@ -97,7 +99,7 @@ export function LanguageProvider({
   )
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, toggle, d, t, images, links, packages, sectionOrder }}>
+    <LanguageContext.Provider value={{ lang, setLang, toggle, d, t, images, links, packages, legal, sectionOrder }}>
       {children}
     </LanguageContext.Provider>
   )

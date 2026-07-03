@@ -1,28 +1,6 @@
 import { useLang } from '@/i18n/language-context'
 import { Container } from '@/components/ui/container'
 
-function AppleIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" className="shrink-0">
-      <path
-        d="M16.5 1.5c.1 1-.3 2-1 2.8-.7.8-1.8 1.4-2.8 1.3-.1-1 .4-2 1-2.7.7-.8 1.9-1.3 2.8-1.4zM19 17c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-3C1 16.5.7 12.2 2.3 9.9c1-1.6 2.7-2.6 4.3-2.6 1.6 0 2.6.9 3.9.9 1.3 0 2-.9 3.9-.9 1.4 0 2.9.8 3.9 2.1-3.4 1.9-2.9 6.8.8 7.6z"
-        fill="#FDF2F0"
-      />
-    </svg>
-  )
-}
-
-function GooglePlayIcon() {
-  return (
-    <svg width="20" height="22" viewBox="0 0 22 24" className="shrink-0">
-      <path d="M2 2.5v19l11-9.5z" fill="#C49C40" />
-      <path d="M2 2.5l11 9.5 4.5-3.9z" fill="#F4C3C6" />
-      <path d="M2 21.5l11-9.5 4.5 3.9z" fill="#C87B82" />
-      <path d="M17.5 8.1l3 2c.9.6.9 1.8 0 2.4l-3 2L13 12z" fill="#E5D5CD" />
-    </svg>
-  )
-}
-
 function PlayGlyph({ className }: { className?: string }) {
   return (
     <svg width="14" height="16" viewBox="0 0 14 16" className={className}>
@@ -35,18 +13,9 @@ export function AllumiSection() {
   const { d, images, links } = useLang()
   const a = d.allumi
   const p = a.phone
-  // Render store buttons in dashboard display_order (links.store is already ordered).
-  const STORE_META = {
-    ios: { Icon: AppleIcon, pre: a.appStorePre, name: a.appStoreName },
-    android: { Icon: GooglePlayIcon, pre: a.googlePlayPre, name: a.googlePlayName },
-  }
-  const stores = (links?.store ?? [])
-    .map((s) => ({
-      platform: s.platform,
-      url: s.url,
-      meta: STORE_META[s.platform as keyof typeof STORE_META],
-    }))
-    .filter((s) => s.url && s.url !== '#' && s.meta)
+  // Store badges are managed in the dashboard (store_links.badge_image_url) and
+  // rendered in dashboard display_order. Only show links with a real URL + badge.
+  const stores = (links?.store ?? []).filter((s) => s.url && s.url !== '#' && s.badge)
 
   return (
     <section id="allumi" className="bg-cream py-12 md:py-20 lg:py-26">
@@ -62,31 +31,25 @@ export function AllumiSection() {
             </h2>
             <p className="max-w-[520px] pt-6 text-base leading-[26px] text-dark/65 sm:text-[17px] sm:leading-7">{a.body}</p>
 
-            <div className="flex items-center gap-3 pt-9 sm:gap-4">
-              {stores.map(({ platform, url, meta }) => {
-                if (!meta) return null
-                const Icon = meta.Icon
-                return (
+            {stores.length > 0 && (
+              <div className="flex items-center gap-3 pt-9 sm:gap-4">
+                {stores.map((s) => (
                   <a
-                    key={platform}
-                    href={url}
+                    key={s.platform}
+                    href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2.5 rounded-[14px] bg-dark px-4 py-2.5 sm:gap-3 sm:px-[22px] sm:py-[13px]"
+                    className="shrink-0 transition-opacity hover:opacity-90"
                   >
-                    <Icon />
-                    <span className="flex flex-col">
-                      <span className="text-[9px] font-medium tracking-[0.04em] text-cream/70 sm:text-[10px]">
-                        {meta.pre}
-                      </span>
-                      <span className="text-[15px] font-semibold leading-[20px] text-cream sm:text-[17px] sm:leading-[22px]">
-                        {meta.name}
-                      </span>
-                    </span>
+                    <img
+                      src={s.badge as string}
+                      alt={`${s.platform} store badge`}
+                      className="h-11 w-auto object-contain sm:h-13"
+                    />
                   </a>
-                )
-              })}
-            </div>
+                ))}
+              </div>
+            )}
 
             <a href="https://allumi.me" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-dark sm:text-[15px]">
               {a.link} <span className="text-gold">→</span>
