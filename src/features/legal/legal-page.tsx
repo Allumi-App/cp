@@ -1,11 +1,9 @@
 'use client'
 
-import { Link } from '@/i18n/navigation'
 import { useLang } from '@/i18n/language-context'
 import { Container } from '@/components/ui/container'
 import { FloatingGradient } from '@/components/shared/floating-gradient'
-import { cn } from '@/lib/utils'
-import { LEGAL_SLUGS, getLegalSections, type LegalSlug } from './legal-content'
+import { getLegalSections, type LegalSlug } from './legal-content'
 
 export function LegalPage({ slug }: { slug: LegalSlug }) {
   const { d, lang } = useLang()
@@ -30,26 +28,6 @@ export function LegalPage({ slug }: { slug: LegalSlug }) {
           <p className="pt-4 text-[15px] text-dark/50">{d.legal.updated}</p>
         </Container>
       </section>
-
-      {/* Tabs */}
-      <div className="sticky top-20 z-30 border-b border-[#2C18101F] bg-cream lg:top-24">
-        <Container className="flex items-center gap-8 overflow-x-auto">
-          {LEGAL_SLUGS.map((s) => (
-            <Link
-              key={s}
-              href={`/legal/${s}`}
-              className={cn(
-                'shrink-0 border-b-2 pb-3.5 pt-4 text-base transition-colors',
-                s === slug
-                  ? 'border-gold font-semibold text-dark'
-                  : 'border-transparent font-medium text-dark/45 hover:text-dark',
-              )}
-            >
-              {d.legal.tabs[s]}
-            </Link>
-          ))}
-        </Container>
-      </div>
 
       {/* Body */}
       <section className="bg-cream py-16 lg:py-20">

@@ -8,7 +8,7 @@ export function TestimonialsSection() {
   const t = d.testimonials
 
   return (
-    <section className="border-t border-[#2C18101A] bg-cream py-12 md:py-20 lg:py-26">
+    <section className="bg-cream py-12 md:py-20 lg:py-26">
       <Container>
         <div className="flex flex-col items-center gap-4.5 text-center">
           <p className="text-[13px] font-semibold uppercase tracking-[0.15em] text-dark/50">

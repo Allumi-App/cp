@@ -134,6 +134,7 @@ export const de: Dictionary = {
     follow: 'Folgen',
     explore: 'Entdecken',
     exploreLinks: ['1:1 Coaching', 'ALLUMI App', 'The Show', 'Über mich'],
+    faq: 'FAQ',
     listen: 'Hören & App holen',
     listenLinks: ['Spotify', 'Apple Podcasts', 'YouTube', 'allumi.me'],
     legal: 'Rechtliches',

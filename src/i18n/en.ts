@@ -132,6 +132,7 @@ export const en = {
     follow: 'Follow',
     explore: 'Explore',
     exploreLinks: ['1:1 Coaching', 'ALLUMI App', 'The Show', 'About'],
+    faq: 'FAQ',
     listen: 'Listen & Get the App',
     listenLinks: ['Spotify', 'Apple Podcasts', 'YouTube', 'allumi.me'],
     legal: 'Legal',

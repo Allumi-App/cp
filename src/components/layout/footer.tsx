@@ -79,7 +79,10 @@ export function Footer() {
           <div className="flex flex-wrap gap-12 lg:gap-20">
             <FooterCol
               heading={d.footer.explore}
-              items={d.footer.exploreLinks.map((label, i) => ({ label, to: exploreHrefs[i] }))}
+              items={[
+                ...d.footer.exploreLinks.map((label, i) => ({ label, to: exploreHrefs[i] })),
+                { label: d.footer.faq, to: '/faq' },
+              ]}
             />
             <FooterCol
               heading={d.footer.listen}

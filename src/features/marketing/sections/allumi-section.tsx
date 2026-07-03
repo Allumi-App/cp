@@ -49,9 +49,9 @@ export function AllumiSection() {
     .filter((s) => s.url && s.url !== '#' && s.meta)
 
   return (
-    <section id="allumi" className="border-t border-[#2C18101A] bg-cream py-12 md:py-20 lg:py-26">
+    <section id="allumi" className="bg-cream py-12 md:py-20 lg:py-26">
       <Container>
-        <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-20">
+        <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           {/* Copy */}
           <div className="w-full lg:max-w-155">
             <p className="text-[13px] font-semibold uppercase tracking-[0.15em] text-dark/50">

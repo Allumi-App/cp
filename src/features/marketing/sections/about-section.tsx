@@ -24,9 +24,9 @@ export function AboutSection() {
   const a = d.about
 
   return (
-    <section id="about" className="border-t border-[#2C18101A] bg-cream py-12 md:py-20 lg:py-26">
+    <section id="about" className="bg-cream py-12 md:py-20 lg:py-26">
       <Container>
-        <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-22">
+        <div className="flex flex-col items-center gap-10 lg:flex-row-reverse lg:items-center lg:justify-between lg:gap-12">
           {/* Photo */}
           <div
             className="relative flex aspect-square w-full max-w-[420px] shrink-0 items-end justify-center overflow-clip rounded-[26px] lg:w-[527px] lg:max-w-none"

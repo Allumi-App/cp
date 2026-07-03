@@ -8,7 +8,7 @@ export function ApproachSection() {
   const a = d.approach
 
   return (
-    <section id="coaching" className="border-t border-[#2C18101A] bg-cream py-12 md:py-20 lg:py-26">
+    <section id="coaching" className="bg-cream py-12 md:py-20 lg:py-26">
       <Container>
         {/* Header row */}
         <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between lg:gap-20">

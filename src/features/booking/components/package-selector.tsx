@@ -36,8 +36,11 @@ export function PackageSelector({
         })}
       </div>
 
-      {/* Detail card */}
-      <div className="rounded-3xl bg-white p-5 shadow-[0_1px_4px_#2C18100F,0_4px_16px_#2C18100D] sm:p-7 lg:p-8.5">
+      {/* Detail card — re-keys on selection so it fades/slides in on each switch */}
+      <div
+        key={selected}
+        className="rounded-3xl bg-white p-5 shadow-[0_1px_4px_#2C18100F,0_4px_16px_#2C18100D] animate-[pkg-in_.28s_ease-out] sm:p-7 lg:p-8.5"
+      >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
           <h3 className="font-serif text-[22px] font-bold text-dark sm:text-[26px]">{pkg.name[lang]}</h3>
           <div className="sm:text-right">

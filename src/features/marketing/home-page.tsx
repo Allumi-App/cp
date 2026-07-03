@@ -1,6 +1,6 @@
 'use client'
 
-import type { ComponentType } from 'react'
+import { Fragment, type ComponentType } from 'react'
 import { useLang } from '@/i18n/language-context'
 import { HeroSection } from './sections/hero-section'
 import { ApproachSection } from './sections/approach-section'
@@ -24,11 +24,23 @@ const SECTIONS: Record<string, ComponentType> = {
 
 export function HomePage() {
   const { sectionOrder } = useLang()
+  const sections = sectionOrder.filter((key) => SECTIONS[key])
   return (
     <>
-      {sectionOrder.map((key) => {
+      {sections.map((key, i) => {
         const Section = SECTIONS[key]
-        return Section ? <Section key={key} /> : null
+        return (
+          <Fragment key={key}>
+            {/* Inset hairline between sections — aligned to content gutters,
+                not full-bleed (matches allumi-website). */}
+            {i > 0 && (
+              <div className="px-4 md:px-10 lg:px-20">
+                <div className="h-px bg-[#2C18101A]" />
+              </div>
+            )}
+            <Section />
+          </Fragment>
+        )
       })}
     </>
   )

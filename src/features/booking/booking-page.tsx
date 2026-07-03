@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Link, useRouter } from '@/i18n/navigation'
-import { ArrowLeft } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useRouter } from '@/i18n/navigation'
 import { toast } from 'sonner'
 import { useLang } from '@/i18n/language-context'
 import { Container } from '@/components/ui/container'
@@ -31,8 +30,16 @@ export function BookingPage() {
   const { d, lang } = useLang()
   const b = d.booking
   const router = useRouter()
-  const { packageId, customer, selectedPackage, setPackage, setCustomer, markSubmitted } = useBooking()
+  const { packageId, customer, selectedPackage, setPackage, setCustomer, markSubmitted, submitted, reset } =
+    useBooking()
   const [submitting, setSubmitting] = useState(false)
+
+  // If the user returns to book again after a completed request, start fresh
+  // (the confirmation page keeps its own data until then). Runs once on mount.
+  useEffect(() => {
+    if (submitted) reset()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onSubmit = async (values: CustomerDetails) => {
     setSubmitting(true)
@@ -59,14 +66,7 @@ export function BookingPage() {
       {/* Header */}
       <div className="border-b border-[#2C18101A]">
         <Container className="py-10 md:py-12 lg:py-16">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gold transition-opacity hover:opacity-80 sm:text-[15px]"
-          >
-            <ArrowLeft className="size-4" />
-            {b.backHome}
-          </Link>
-          <p className="pt-6 text-[13px] font-semibold uppercase tracking-[0.2em] text-dark/50">
+          <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-dark/50">
             {b.eyebrow}
           </p>
           <h1 className="pt-2 font-serif text-[34px] font-bold tracking-[-0.03em] text-dark sm:text-[44px] md:text-[58px]">
@@ -107,6 +107,7 @@ export function BookingPage() {
                 type: 'submit',
                 formId: DETAILS_FORM_ID,
                 disabled: submitting,
+                loading: submitting,
               }}
             />
           </div>

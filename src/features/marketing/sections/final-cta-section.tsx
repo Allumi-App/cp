@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { Loader2 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { toast } from 'sonner'
 import { useLang } from '@/i18n/language-context'
@@ -29,20 +30,20 @@ export function FinalCtaSection() {
         toast.error(c.error)
       } else if (data.already) {
         toast.info(c.already)
-        setEmail('')
       } else {
         toast.success(c.success)
-        setEmail('')
       }
     } catch {
       toast.error(c.error)
     } finally {
+      // Always clear the field after a submit attempt.
+      setEmail('')
       setPending(false)
     }
   }
 
   return (
-    <section className="border-t border-[#2C18101A] bg-cream py-12 md:py-20 lg:py-26">
+    <section className="bg-cream py-12 md:py-20 lg:py-26">
       <Container>
         <div className="flex flex-col items-center text-center">
           <p className="text-[13px] font-semibold uppercase tracking-[0.15em] text-dark/60">
@@ -66,13 +67,14 @@ export function FinalCtaSection() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={c.placeholder}
-                className="h-12 w-full rounded-full border border-[#2C18102E] bg-cream px-6 text-[15px] text-dark placeholder:text-dark/45 focus:border-gold focus:outline-none sm:w-80"
+                className="h-12 w-full rounded-full border border-[#2C18102E] bg-white px-6 text-[15px] text-dark placeholder:text-dark/45 focus:border-gold focus:outline-none sm:w-80"
               />
               <button
                 type="submit"
                 disabled={pending}
-                className="h-12 shrink-0 rounded-full bg-dark px-7 text-[15px] font-semibold text-cream transition-opacity hover:opacity-90 disabled:opacity-60"
+                className="flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-dark px-7 text-[15px] font-semibold text-cream transition-opacity hover:opacity-90 disabled:opacity-60"
               >
+                {pending && <Loader2 className="size-4 animate-spin" />}
                 {c.subscribe}
               </button>
             </form>

@@ -3,7 +3,6 @@
 import { useLang } from '@/i18n/language-context'
 import { Container } from '@/components/ui/container'
 import { Accordion } from '@/components/ui/accordion'
-import { FloatingGradient } from '@/components/shared/floating-gradient'
 import { btnPrimary } from '@/lib/ui'
 
 export function FaqPage() {
@@ -14,11 +13,6 @@ export function FaqPage() {
     <>
       {/* Header */}
       <section className="relative overflow-clip bg-cream pt-16 pb-16 lg:pt-22 lg:pb-20">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute right-0 top-0 hidden h-full w-1/2 lg:block">
-            <FloatingGradient variant="small" />
-          </div>
-        </div>
         <Container className="relative">
           <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-dark/50">
             {faq.eyebrow}

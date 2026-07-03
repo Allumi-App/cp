@@ -1,4 +1,4 @@
-import { Clock, ArrowRight } from 'lucide-react'
+import { Clock, ArrowRight, Loader2 } from 'lucide-react'
 import { useLang } from '@/i18n/language-context'
 import { formatPrice } from '@/lib/format'
 import { cn } from '@/lib/utils'
@@ -12,6 +12,8 @@ interface SummaryAction {
   formId?: string
   onClick?: () => void
   disabled?: boolean
+  /** When true, swaps the arrow for a spinner to signal work in progress. */
+  loading?: boolean
 }
 
 export function BookingSummary({ action }: { action?: SummaryAction }) {
@@ -47,10 +49,14 @@ export function BookingSummary({ action }: { action?: SummaryAction }) {
           form={action.formId}
           onClick={action.onClick}
           disabled={action.disabled}
-          className={cn(btnPrimary, 'mt-5 w-full gap-2 disabled:cursor-not-allowed disabled:opacity-50')}
+          className={cn(btnPrimary, 'group mt-5 w-full gap-2 transition-all disabled:cursor-not-allowed disabled:opacity-60')}
         >
           {action.label}
-          <ArrowRight className="size-4" />
+          {action.loading ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+          )}
         </button>
       )}
 

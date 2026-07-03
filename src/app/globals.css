@@ -89,6 +89,20 @@
   }
 }
 
+/* Package detail card — fade + slide-up when switching packages.
+   Used via `animate-[pkg-in_.28s_ease-out]` on a `key`-ed element so it
+   re-mounts (and re-animates) on every selection change. */
+@keyframes pkg-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Render info toasts (e.g. "you're already subscribed") in yellow. */
 [data-sonner-toast][data-type='info'] {
   background-color: #fef9c3 !important;

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { Link, useRouter } from '@/i18n/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { Check, Clock, Mail } from 'lucide-react'
 import { useLang } from '@/i18n/language-context'
 import { Container } from '@/components/ui/container'
@@ -70,14 +70,6 @@ export function ConfirmationPage() {
               <p className="text-base leading-[26px] text-dark/60">{step.body}</p>
             </div>
           ))}
-        </div>
-        <div className="flex justify-center pt-12">
-          <Link
-            href="/"
-            className="flex items-center justify-center rounded-full border border-[#2C181033] bg-white px-8 py-3.5 text-base font-semibold text-dark transition-colors hover:bg-card-warm"
-          >
-            {c.backHome}
-          </Link>
         </div>
       </Container>
     </>
