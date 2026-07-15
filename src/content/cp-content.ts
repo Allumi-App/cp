@@ -182,6 +182,7 @@ export function buildContent(local: Dictionary, rows: DbRows | null, lang: Lang)
       description: pick(c, 'description', lang),
       cta: pick(c, 'cta_label', lang),
       url: str(c.url),
+      image: str(c.image_url),
     }))
   }
 

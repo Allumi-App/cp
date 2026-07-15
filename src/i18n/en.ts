@@ -58,6 +58,7 @@ export const en = {
           'Guided meditations, breathwork, and transformative audio — the coaching work, in your pocket.',
         cta: 'Get the app',
         url: '#',
+        image: '',
       },
       {
         product: 'show',
@@ -66,6 +67,7 @@ export const en = {
           'A short, honest podcast on transformation and mindset — new episodes weekly.',
         cta: 'Listen now',
         url: '#',
+        image: '',
       },
       {
         product: 'book',
@@ -73,6 +75,7 @@ export const en = {
         description: "Christina's book on shedding old patterns and coming home to yourself.",
         cta: 'Buy on Amazon',
         url: '#',
+        image: '',
       },
     ],
   },

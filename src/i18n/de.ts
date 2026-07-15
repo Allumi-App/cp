@@ -60,6 +60,7 @@ export const de: Dictionary = {
           'Geführte Meditationen, Atemarbeit und transformative Audios — die Coaching-Arbeit für die Hosentasche.',
         cta: 'Zur App',
         url: '#',
+        image: '',
       },
       {
         product: 'show',
@@ -68,6 +69,7 @@ export const de: Dictionary = {
           'Ein kurzer, ehrlicher Podcast über Transformation und Mindset — wöchentlich neue Folgen.',
         cta: 'Jetzt anhören',
         url: '#',
+        image: '',
       },
       {
         product: 'book',
@@ -76,6 +78,7 @@ export const de: Dictionary = {
           'Christinas Buch über das Ablegen alter Muster und die Rückkehr zu dir selbst.',
         cta: 'Bei Amazon kaufen',
         url: '#',
+        image: '',
       },
     ],
   },

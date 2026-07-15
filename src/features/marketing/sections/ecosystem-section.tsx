@@ -128,10 +128,19 @@ export function EcosystemSection() {
             return (
               <div
                 key={card.product}
-                className="flex flex-col items-center rounded-3xl bg-card-warm p-7 text-center shadow-[0_1px_4px_#2C18100F,0_4px_16px_#2C18100D]"
+                className="flex h-full flex-col items-center rounded-3xl bg-card-warm p-7 text-center shadow-[0_1px_4px_#2C18100F,0_4px_16px_#2C18100D]"
               >
+                {/* Uploaded image if set, else the on-brand mockup placeholder. */}
                 <div className="flex h-[300px] items-center justify-center">
-                  <Mock product={card.product} title={card.title} />
+                  {card.image ? (
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="max-h-[300px] w-auto max-w-full rounded-2xl object-contain"
+                    />
+                  ) : (
+                    <Mock product={card.product} title={card.title} />
+                  )}
                 </div>
                 <h3 className="pt-7 font-serif text-2xl font-bold leading-[30px] text-dark">
                   {card.title}
@@ -139,18 +148,17 @@ export function EcosystemSection() {
                 <p className="max-w-[320px] pt-3 text-base leading-[26px] text-dark/65">
                   {card.description}
                 </p>
-                {real ? (
-                  <a
-                    href={card.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`mt-7 ${btnDark}`}
-                  >
-                    {card.cta}
-                  </a>
-                ) : (
-                  <span className={`mt-7 ${btnDark} cursor-default opacity-60`}>{card.cta}</span>
-                )}
+                {/* mt-auto pins the CTA row to the bottom so buttons align across
+                    cards regardless of copy length; pt-7 keeps a minimum gap. */}
+                <div className="mt-auto flex w-full justify-center pt-7">
+                  {real ? (
+                    <a href={card.url} target="_blank" rel="noopener noreferrer" className={btnDark}>
+                      {card.cta}
+                    </a>
+                  ) : (
+                    <span className={`${btnDark} cursor-default`}>{card.cta}</span>
+                  )}
+                </div>
               </div>
             )
           })}
