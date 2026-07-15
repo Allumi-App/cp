@@ -24,6 +24,8 @@ export const de: Dictionary = {
     titleAccent: 'deine',
     titleLine2: 'Transformation.',
     body: 'Keine Skripte, keine Programme von der Stange. Nur fokussierte, private Sitzungen, ganz auf dich und dein Ziel zugeschnitten.',
+    intro:
+      'Future Vision Coaching ist ein privater 1:1-Raum, um klar zu sehen, was du wirklich willst — und das Selbstvertrauen und den Schwung aufzubauen, dich darauf zuzubewegen, eine ehrliche Unterhaltung nach der anderen.',
     cta: 'Termin buchen',
     questions: 'Fragen?',
     faqLink: 'FAQ →',
@@ -42,6 +44,38 @@ export const de: Dictionary = {
         label: '03 — Das Ergebnis',
         title: 'Schwung, der bleibt',
         body: 'Du gehst aus jeder Sitzung mit Klarheit, einem nächsten Schritt und dem ruhigen Vertrauen, dass das Leben, das du willst, wirklich erreichbar ist.',
+      },
+    ],
+  },
+  ecosystem: {
+    eyebrow: 'Mehr entdecken',
+    titleLine1: 'Eine Reise,',
+    titleAccent: 'viele Wege hinein.',
+    body: 'Die App, der Podcast und das Buch — drei Wege, die Arbeit mit dir zu tragen, wo auch immer du bist.',
+    cards: [
+      {
+        product: 'allumi',
+        title: 'ALLUMI',
+        description:
+          'Geführte Meditationen, Atemarbeit und transformative Audios — die Coaching-Arbeit für die Hosentasche.',
+        cta: 'Zur App',
+        url: '#',
+      },
+      {
+        product: 'show',
+        title: 'Die Christina Pfeiffer Show',
+        description:
+          'Ein kurzer, ehrlicher Podcast über Transformation und Mindset — wöchentlich neue Folgen.',
+        cta: 'Jetzt anhören',
+        url: '#',
+      },
+      {
+        product: 'book',
+        title: 'Unbecoming Human',
+        description:
+          'Christinas Buch über das Ablegen alter Muster und die Rückkehr zu dir selbst.',
+        cta: 'Bei Amazon kaufen',
+        url: '#',
       },
     ],
   },

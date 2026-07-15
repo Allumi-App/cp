@@ -4,6 +4,7 @@ import { Fragment, type ComponentType } from 'react'
 import { useLang } from '@/i18n/language-context'
 import { HeroSection } from './sections/hero-section'
 import { ApproachSection } from './sections/approach-section'
+import { EcosystemSection } from './sections/ecosystem-section'
 import { AllumiSection } from './sections/allumi-section'
 import { ShowSection } from './sections/show-section'
 import { TestimonialsSection } from './sections/testimonials-section'
@@ -15,6 +16,7 @@ import { FinalCtaSection } from './sections/final-cta-section'
 const SECTIONS: Record<string, ComponentType> = {
   hero: HeroSection,
   approach: ApproachSection,
+  ecosystem: EcosystemSection,
   allumi: AllumiSection,
   show: ShowSection,
   testimonials: TestimonialsSection,

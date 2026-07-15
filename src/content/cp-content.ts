@@ -15,6 +15,7 @@ export interface DbRows {
   social: Row[]
   store: Row[]
   show: Row[]
+  ecosystem: Row[]
   legal: Row[]
 }
 
@@ -59,6 +60,7 @@ export interface CpContent {
 export const DEFAULT_SECTION_ORDER = [
   'hero',
   'approach',
+  'ecosystem',
   'allumi',
   'show',
   'testimonials',
@@ -80,7 +82,7 @@ function pick(row: Row, base: string, lang: Lang): string {
 export async function fetchCpContent(): Promise<DbRows | null> {
   if (!supabase) return null
   try {
-    const [sections, pillars, testimonials, aboutStats, faq, packages, social, store, show, legal] =
+    const [sections, pillars, testimonials, aboutStats, faq, packages, social, store, show, ecosystem, legal] =
       await Promise.all([
         supabase.from('sections').select('*').order('display_order'),
         supabase.from('approach_pillars').select('*').order('display_order'),
@@ -91,6 +93,7 @@ export async function fetchCpContent(): Promise<DbRows | null> {
         supabase.from('social_links').select('*').order('display_order'),
         supabase.from('store_links').select('*').order('display_order'),
         supabase.from('show_platforms').select('*').order('display_order'),
+        supabase.from('ecosystem_cards').select('*').eq('is_visible', true).order('display_order'),
         supabase.from('legal_documents').select('*').order('display_order'),
       ])
     return {
@@ -103,6 +106,7 @@ export async function fetchCpContent(): Promise<DbRows | null> {
       social: social.data ?? [],
       store: store.data ?? [],
       show: show.data ?? [],
+      ecosystem: ecosystem.data ?? [],
       legal: legal.data ?? [],
     }
   } catch {
@@ -152,6 +156,7 @@ export function buildContent(local: Dictionary, rows: DbRows | null, lang: Lang)
     set(d.approach, 'titleAccent', pick(s, 'title_accent', lang))
     set(d.approach, 'titleLine2', pick(s, 'title_suffix', lang))
     set(d.approach, 'body', pick(s, 'subtitle', lang))
+    set(d.approach, 'intro', pick(s, 'body', lang))
     set(d.approach, 'cta', pick(s, 'cta_primary', lang))
   }
   if (rows.pillars.length) {
@@ -159,6 +164,24 @@ export function buildContent(local: Dictionary, rows: DbRows | null, lang: Lang)
       label: pick(p, 'label', lang),
       title: pick(p, 'title', lang),
       body: pick(p, 'body', lang),
+    }))
+  }
+
+  // ecosystem (header + product cards)
+  if (S.ecosystem) {
+    const s = S.ecosystem
+    set(d.ecosystem, 'eyebrow', pick(s, 'eyebrow', lang))
+    set(d.ecosystem, 'titleLine1', pick(s, 'title', lang))
+    set(d.ecosystem, 'titleAccent', pick(s, 'title_accent', lang))
+    set(d.ecosystem, 'body', pick(s, 'subtitle', lang))
+  }
+  if (rows.ecosystem.length) {
+    d.ecosystem.cards = rows.ecosystem.map((c) => ({
+      product: str(c.product),
+      title: pick(c, 'title', lang),
+      description: pick(c, 'description', lang),
+      cta: pick(c, 'cta_label', lang),
+      url: str(c.url),
     }))
   }
 

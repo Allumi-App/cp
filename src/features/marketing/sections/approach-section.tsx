@@ -21,6 +21,9 @@ export function ApproachSection() {
             </h2>
           </div>
           <div className="flex flex-col gap-6 lg:max-w-[420px] lg:pb-1.5">
+            {a.intro && (
+              <p className="text-base leading-[26px] text-dark/65 sm:text-[17px] sm:leading-7">{a.intro}</p>
+            )}
             <p className="text-base leading-[26px] text-dark/65 sm:text-[17px] sm:leading-7">{a.body}</p>
             <div className="flex items-center gap-5 sm:gap-6">
               <Link href="/coaching" className={btnPrimary}>

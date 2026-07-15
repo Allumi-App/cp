@@ -22,6 +22,8 @@ export const en = {
     titleAccent: 'your',
     titleLine2: 'transformation.',
     body: 'No scripts, no one-size programs. Just focused, private sessions designed entirely around where you are and where you want to be.',
+    intro:
+      'Future Vision Coaching is a private, 1:1 space to get clear on what you truly want — and build the confidence and momentum to move toward it, one honest conversation at a time.',
     cta: 'Book a session',
     questions: 'Questions?',
     faqLink: 'FAQ →',
@@ -40,6 +42,37 @@ export const en = {
         label: '03 — The outcome',
         title: 'Momentum that lasts',
         body: 'You leave each session with clarity, a next step, and the steady confidence that the life you want is genuinely within reach.',
+      },
+    ],
+  },
+  ecosystem: {
+    eyebrow: 'Explore more',
+    titleLine1: 'One journey,',
+    titleAccent: 'many ways in.',
+    body: 'The app, the podcast, and the book — three ways to carry the work with you, wherever you are.',
+    cards: [
+      {
+        product: 'allumi',
+        title: 'ALLUMI',
+        description:
+          'Guided meditations, breathwork, and transformative audio — the coaching work, in your pocket.',
+        cta: 'Get the app',
+        url: '#',
+      },
+      {
+        product: 'show',
+        title: 'The Christina Pfeiffer Show',
+        description:
+          'A short, honest podcast on transformation and mindset — new episodes weekly.',
+        cta: 'Listen now',
+        url: '#',
+      },
+      {
+        product: 'book',
+        title: 'Unbecoming Human',
+        description: "Christina's book on shedding old patterns and coming home to yourself.",
+        cta: 'Buy on Amazon',
+        url: '#',
       },
     ],
   },
